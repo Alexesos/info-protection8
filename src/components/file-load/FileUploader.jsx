@@ -33,7 +33,7 @@ const FileUploader = ({ title, setFileText, content }) => {
     };
 
     const isValid = (text) => {
-        const valid = /^[0-1,]*$/.test(text);
+        const valid = /^[0-9,]*$/.test(text);
 
         if (title === 'Хеш') {
             if (!valid) {

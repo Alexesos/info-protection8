@@ -14,7 +14,7 @@ const App = () => {
     const [hash, setHash] = useState('');
     const [hashCheck, setHashCheck] = useState('');
     const [model, setModel] = useState(_models[0]);
-    const { getHashCs, hashCsCheck, getHashMs, hashMsCheck } = Service();
+    const { getHashCs, hashCsCheck, getHashMs, hashMsCheck, getHashMod, hashModCheck } = Service();
 
     // Renders
 
@@ -72,6 +72,24 @@ const App = () => {
         setHashCheck(isValid);
     }
 
+    const hashMod = async () => {
+        if (!message) {
+            alert('Повідомлення не задано');
+            return;
+        }
+        const newHash = await getHashMod(message);
+        setHash(newHash);
+    }
+
+    const hashCheckMod = async () => {
+        if (!message || !hash) {
+            alert('Повідомлення або хеш не задано');
+            return;
+        }
+        const isValid = await hashModCheck(message, hash);
+        setHashCheck(isValid);
+    }
+
     const encodeCall = () => {
         switch (model) {
             case 'Метод контрольних сум':
@@ -81,7 +99,7 @@ const App = () => {
                 hashMs();
                 break;
             case 'Модульне хешування':
-                // Call module hashing function
+                hashMod();
                 break;
             case 'Метод перетворення системи числення':
                 // Call numeral system conversion function
@@ -103,7 +121,7 @@ const App = () => {
                 hashCheckMs();
                 break;
             case 'Модульне хешування':
-                // Call module hashing check function
+                hashCheckMod();
                 break;
             case 'Метод перетворення системи числення':
                 // Call numeral system conversion check function
@@ -125,29 +143,44 @@ const App = () => {
                         <FileUploader title={"Хеш"} setFileText={setHash} content={hash}/>
                     </div>
                     <div className="main__mid">
-                        <ul className="main__list">
-                            {renderModels()}
-                        </ul>
-                        <div className="main__actions">
-                            <button 
-                                className="main__button"
-                                onClick={() => encodeCall()}    
-                            >
-                                Отримати хеш повідомлення
-                            </button>
-                            <button 
-                                className="main__button"
-                                onClick={() => checkCall()}    
-                            >
-                                Перевірити повідомлення
-                            </button>
+                        <div className="main__block">
+                            <h5 className="main__title">
+                                Вибір методу хешування
+                            </h5>
+                            <ul className="main__list">
+                                {renderModels()}
+                            </ul>
                         </div>
-                        <div className="main__conclusion">
-                            <span
-                                className={`main__hash ${hashCheck === '' ? 'neutral' : hashCheck ? 'valid' : 'invalid'}`}
-                            >
-                                {hashCheck === '' ? 'Очікування перевірки' : hashCheck ? 'Хеш вірний' : 'Хеш не вірний'}
-                            </span>
+                        <div className="main__block">
+                            <h5 className="main__title">
+                                Дії
+                            </h5>
+                            <div className="main__actions">
+                                <button 
+                                    className="main__button"
+                                    onClick={() => encodeCall()}    
+                                >
+                                    Отримати хеш повідомлення
+                                </button>
+                                <button 
+                                    className="main__button"
+                                    onClick={() => checkCall()}    
+                                >
+                                    Перевірити повідомлення
+                                </button>
+                            </div>
+                        </div>
+                        <div className="main__block">
+                            <h5 className="main__title">
+                                Перевірка
+                            </h5>
+                            <div className="main__conclusion">
+                                <span
+                                    className={`main__hash ${hashCheck === '' ? 'neutral' : hashCheck ? 'valid' : 'invalid'}`}
+                                >
+                                    {hashCheck === '' ? 'Очікування перевірки' : hashCheck ? 'Хеш вірний' : 'Хеш не вірний'}
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div className="main__end">
