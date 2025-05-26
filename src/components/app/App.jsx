@@ -14,7 +14,7 @@ const App = () => {
     const [hash, setHash] = useState('');
     const [hashCheck, setHashCheck] = useState('');
     const [model, setModel] = useState(_models[0]);
-    const { getHashCs, hashCsCheck, getHashMs, hashMsCheck, getHashMod, hashModCheck } = Service();
+    const { getHashCs, hashCsCheck, getHashMs, hashMsCheck, getHashMod, hashModCheck, getHashMpsc, hashMpscCheck } = Service();
 
     // Renders
 
@@ -90,6 +90,24 @@ const App = () => {
         setHashCheck(isValid);
     }
 
+    const hashMpsc = async () => {
+        if (!message) {
+            alert('Повідомлення не задано');
+            return;
+        }
+        const newHash = await getHashMpsc(message);
+        setHash(newHash);
+    }
+
+    const hashCheckMpsc = async () => {
+        if (!message || !hash) {
+            alert('Повідомлення або хеш не задано');
+            return;
+        }
+        const isValid = await hashMpscCheck(message, hash);
+        setHashCheck(isValid);
+    }
+
     const encodeCall = () => {
         switch (model) {
             case 'Метод контрольних сум':
@@ -102,7 +120,7 @@ const App = () => {
                 hashMod();
                 break;
             case 'Метод перетворення системи числення':
-                // Call numeral system conversion function
+                hashMpsc();
                 break;
             case 'Метод згортання':
                 // Call folding method function
@@ -124,7 +142,7 @@ const App = () => {
                 hashCheckMod();
                 break;
             case 'Метод перетворення системи числення':
-                // Call numeral system conversion check function
+                hashCheckMpsc();
                 break;
             case 'Метод згортання':
                 // Call folding method check function

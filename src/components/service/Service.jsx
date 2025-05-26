@@ -56,8 +56,27 @@ const Service = () => {
         const data = await makeRequest('/check/mod', { message, hash });
         return data.isValid;
     }
+
+    const getHashMpsc = async (message) => {
+        const data = await makeRequest('/hash/mpsc', { message });
+        return data.hash;
+    }
+
+    const hashMpscCheck = async (message, hash) => {
+        const data = await makeRequest('/check/mpsc', { message, hash });
+        return data.isValid;
+    }
     
-    return { getHashCs, hashCsCheck, getHashMs, hashMsCheck, getHashMod, hashModCheck };
+    return { 
+        getHashCs, 
+        hashCsCheck, 
+        getHashMs, 
+        hashMsCheck, 
+        getHashMod, 
+        hashModCheck, 
+        getHashMpsc,
+        hashMpscCheck
+    };
 };
 
 export default Service;
