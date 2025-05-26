@@ -66,6 +66,16 @@ const Service = () => {
         const data = await makeRequest('/check/mpsc', { message, hash });
         return data.isValid;
     }
+
+    const getHashZgort = async (message) => {
+        const data = await makeRequest('/hash/zgort', { message });
+        return data.hash;
+    }
+
+    const hashZgortCheck = async (message, hash) => {
+        const data = await makeRequest('/check/zgort', { message, hash });
+        return data.isValid;
+    }
     
     return { 
         getHashCs, 
@@ -75,7 +85,9 @@ const Service = () => {
         getHashMod, 
         hashModCheck, 
         getHashMpsc,
-        hashMpscCheck
+        hashMpscCheck,
+        getHashZgort,
+        hashZgortCheck
     };
 };
 

@@ -14,7 +14,7 @@ const App = () => {
     const [hash, setHash] = useState('');
     const [hashCheck, setHashCheck] = useState('');
     const [model, setModel] = useState(_models[0]);
-    const { getHashCs, hashCsCheck, getHashMs, hashMsCheck, getHashMod, hashModCheck, getHashMpsc, hashMpscCheck } = Service();
+    const { getHashCs, hashCsCheck, getHashMs, hashMsCheck, getHashMod, hashModCheck, getHashMpsc, hashMpscCheck, getHashZgort, hashZgortCheck } = Service();
 
     // Renders
 
@@ -108,6 +108,24 @@ const App = () => {
         setHashCheck(isValid);
     }
 
+    const hashZgort = async () => {
+        if (!message) {
+            alert('Повідомлення не задано');
+            return;
+        }
+        const newHash = await getHashZgort(message);
+        setHash(newHash);
+    }
+
+    const hashCheckZgort = async () => {
+        if (!message || !hash) {
+            alert('Повідомлення або хеш не задано');
+            return;
+        }
+        const isValid = await hashZgortCheck(message, hash);
+        setHashCheck(isValid);
+    }
+
     const encodeCall = () => {
         switch (model) {
             case 'Метод контрольних сум':
@@ -123,7 +141,7 @@ const App = () => {
                 hashMpsc();
                 break;
             case 'Метод згортання':
-                // Call folding method function
+                hashZgort();
                 break;
             default:
                 alert('Невідома модель');
@@ -145,7 +163,7 @@ const App = () => {
                 hashCheckMpsc();
                 break;
             case 'Метод згортання':
-                // Call folding method check function
+                hashCheckZgort();
                 break;
             default:
                 alert('Невідома модель');
